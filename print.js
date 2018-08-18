@@ -1,7 +1,7 @@
 /**
- * Script que cria comandos ESCPOS LPT1 impressão TM-T20 Seiko Epson Corporation .
+ * Script que cria comandos ESCPOS LPT5 impressão TM-T20 Seiko Epson Corporation .
  * contato: contato: amauri_long@yahoo.com.br
- * Requer Emulador de porta COM/LPT1 para USB/Ethernet
+ * Requer Emulador de porta COM/LPT5 para USB/Ethernet
  * Disponivel  https://download.epson-biz.com/modules/pos/index.php?page=single_soft&cid=5485&pcat=5&pid=41
  * Suporte Epson https://reference.epson-biz.com/modules/ref_escpos/index.php?content_id=270
  * @author Amauri Bueno dos santos
