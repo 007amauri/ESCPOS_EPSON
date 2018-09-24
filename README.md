@@ -9,7 +9,7 @@ Aperte (botão windows + R) e digite shell:startup de enter
 coloque DOSPrintUI.exe nesta pasta para a configuração ser automatica.
 
 
-Cofigure a Porta 5 com a impressora EPSON TM T20
+Cofigure a Porta LPT5 com a impressora EPSON TM T20
 https://share.linx.com.br/display/FARMA/Converter+USB+para+LTP+-+DOSPrint
 
 2 opção de emular a porta defina a porta LPT5
