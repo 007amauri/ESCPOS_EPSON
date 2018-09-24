@@ -25,7 +25,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipul
 	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padrão
 	objPrinter.WriteLine(Chr(27)+"@"+Chr(0))' fonte esquerda defalt
 	objPrinter.WriteBlankLines 1'pula linha
-	result = MsgBox ("Corta papel sim ou não?", vbYesNo, "Corte de papel")
+	result = MsgBox ("Deseja corta papel ?", vbYesNo, "Corte de papel")
     Select Case result
 	Case vbYes
     objPrinter.WriteLine(Chr(29)+"V1")'corte folha
@@ -50,7 +50,8 @@ End Function
 
 'chama a função coloque a quantidade de senha que o pc deve gerar no dia exemplo 10 25 etc... 
 Do 
-rs = Inputbox("Digite o codigo ", "Impressao de codigo de barras BAR 128" ) 
+
+rs = Inputbox("Digite o codigo ", "Impressao de codigo de barras BAR 128", "Exemplo12345" ) 
 
 
 If IsEmpty(rs) Then
@@ -58,7 +59,11 @@ If IsEmpty(rs) Then
     WScript.Quit
 Else
     'something has entered even zero-length
+	If Len(rs) = 12 Then
     print(rs)
+	Else
+	MsgBox "CM MAC deve conter 12 digitos !", vbCritical, "Erro de quantidade de digitos" 
+	End If
 End If
 
 Loop 
