@@ -5,9 +5,10 @@ Script que cria impressão direta
 PORT PC LPT5 FOR USB https://www.youtube.com/watch?v=54Gt7ZcQO5Q&t=151s
 Arquivo . VBS (VISUAL BASE SCRIPT) são arquivos nativo do windows 
 
-Atenção baixe o DOSPrintUI.exe
-https://share.linx.com.br/display/FARMA/Converter+USB+para+LTP+-+DOSPrint
+Atenção baixe o DOSPrintUI.exe https://mega.nz/#!nPxXwQ4R!0_IL2eswLUNz56XuS630YkpZA7LbRgrAhNSjBan-vtQ
+
 Cofigure a Porta 5 com a impressora EPSON TM T20
+https://share.linx.com.br/display/FARMA/Converter+USB+para+LTP+-+DOSPrint
 
 Aperte (botão windows + R) e digite shell:startup de enter
 coloque DOSPrintUI.exe nesta pasta para a configuração ser automatica.
