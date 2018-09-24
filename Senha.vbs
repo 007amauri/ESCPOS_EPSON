@@ -27,11 +27,14 @@ End Function
 Private Function Senha(ByVal valorLOOP)
 Dim objFSO
 Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script
-
-For i = 0 To CInt (valorLOOP)
+i = CInt (valorLOOP) 
+Do
 
 	Set objPrinter = objFSO.CreateTextFile("LPT3", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script
-
+	objPrinter.WriteLine(Chr(27)+"W"+"0")
+	objPrinter.WriteLine(Chr(27)+"@")
+	objPrinter.WriteLine(Chr(12))'ff
+	objPrinter.WriteLine(Chr(12))'ff
 	objPrinter.WriteLine(Chr(27)+"a"+Chr(1))'fonte Centralizar 
 	objPrinter.WriteLine(Chr(27)+"M1"+Chr(29)+"!7")'fonte Grande
 	objPrinter.WriteLine("SENHA")
@@ -40,13 +43,13 @@ For i = 0 To CInt (valorLOOP)
 	objPrinter.WriteLine(cstr(i))'numero da senha atual
 
 	objPrinter.WriteBlankLines 1'pula linha
-	
-	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padr„o
+
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padr√£o
 	objPrinter.WriteLine(Chr(27)+"a"+Chr(2))'justifica a fonte a esquerda 
 	objPrinter.WriteLine(Chr(27)+"!"+Chr(169)+Chr(27)+"4")
 	objPrinter.WriteLine(Chr(27)+"!"+Chr(169)+Chr(27)+"4"+Chr(10))'subrinhar fonte 
 	objPrinter.WriteLine(Fun_Data & " " & Fun_Hora )'Data e Hora atual
-	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padr„o
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padr√£o
 	objPrinter.WriteLine(Chr(27)+"@"+Chr(0))' fonte esquerda defalt
 	objPrinter.WriteBlankLines 1'pula linha
 	objPrinter.WriteLine(Chr(29)+"V1")'corte folha
@@ -54,9 +57,16 @@ For i = 0 To CInt (valorLOOP)
 
 	objPrinter.Close
 
-	alert = msgbox ("Senha: "+ cstr(i) + " Gerada com Sucesso! ",vbInformation," Gerando a senha de " & valorLOOP )
+	alert = msgbox ("Senha: "+ cstr(i) + " Gerada com Sucesso!" + vbCrLf + vbCrLf +"Deseja continuar ?", vbYesNo," Gerando a senha" )
+	
+	Select Case alert
+	Case vbYes
+    i = i+1
+	Case vbNo
+    WScript.Quit
+	End Select
 
-Next
+Loop
 
 Set objFSO = Nothing
 End Function
@@ -65,5 +75,5 @@ End Function
 
 
 
-'chama a funÁ„o coloque a quantidade de senha que o pc deve gerar no dia exemplo 10 25 etc... 
-Senha("3")
+'chama a fun√ß√£o coloque a quantidade de senha que o pc deve gerar no dia exemplo 10 25 etc... 
+Senha("1")
