@@ -30,7 +30,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipul
 i = CInt (valorLOOP) 
 Do
 
-	Set objPrinter = objFSO.CreateTextFile("LPT3", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script
+	Set objPrinter = objFSO.CreateTextFile("LPT5", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script
 	objPrinter.WriteLine(Chr(27)+"W"+"0")
 	objPrinter.WriteLine(Chr(27)+"@")
 	objPrinter.WriteLine(Chr(12))'ff
