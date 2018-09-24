@@ -19,5 +19,7 @@ EpsonPA.exe (TMCOMUSB) drive encontrado no CD G:\Windows\TM Virtual Port Driver
 
 4 video de duvida https://www.youtube.com/watch?v=z6cPdUOfHLU
 
-Os arquivos VBS é so executar dando 2 click que eles são mais praticos.
-Os 2 Arquivos .html e js um depende do outro e so funciona no Intenet Explore !
+
+Os arquivos VBS é so executar dando 2 click que eles são mais praticos e rapidos.
+
+Os 2 Arquivos .html e js, depende um do outro e apenas funciona no Intenet Explore !
