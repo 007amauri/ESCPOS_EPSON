@@ -1,0 +1,133 @@
+<html>
+<head>
+<title> Teste de conect</title>
+<link data-n-head="true" rel="icon" type="image/png" sizes="16x16" href="https://maxst.icons8.com/vue-static/icon/icons8-favicon.png"/>
+
+<!--Begin Vbscript-->
+<script language="VBScript">
+
+'********************************************************************************
+
+Sub window_Onload
+
+window.resizeTo 1000,500
+
+End sub
+
+'********************************************************************************
+
+Sub ClearWindow
+DataArea.InnerHTML = ""
+
+End Sub
+
+'********************************************************************************
+
+'********************************************************************************
+
+Sub dbInfo
+strComputer = "localhost"
+
+query = "select @@servername as server_name, sd.name as database_name,  sum(smf.size)*8 as size_KB, "
+query = query & "is_offline = "
+query = query & "CASE "
+query = query & "WHEN sd.state_desc = 'ONLINE' THEN '' "
+query = query & "WHEN sd.state_desc = 'OFFLINE' THEN 'OFFLINE' "
+query = query & "WHEN sd.state_desc = 'RESTORING' THEN 'RESTORING' "
+query = query & "END, "
+query = query & "is_read_only = "
+query = query & "CASE "
+query = query & "WHEN sd.is_read_only = '0' THEN '' "
+query = query & "WHEN sd.is_read_only = '1' THEN 'READ_ONLY' "
+query = query & "END, "
+query = query & "convert(varchar, sd.create_date, 101) as create_date, sd.compatibility_level, sd.recovery_model_desc as recovery_model "
+query = query & "from sys.databases sd join sys.master_files smf "
+query = query & "on sd.database_id = smf.database_id "
+query = query & "group by sd.name, sd.create_date, sd.compatibility_level, sd.is_read_only, sd.state_desc, sd.recovery_model_desc "
+query = query & "order by 1 "
+
+Set objConnection = CreateObject("ADODB.Connection")
+objConnection.Open "PROVIDER=SQLOLEDB;DATA SOURCE=DESKTOP-OB7AG70\SQLEXPRESS;UID=amauri007bzm;PWD=1k+%-wAMsfS(g;DATABASE=Amauri"
+aspSQL="select * from Customer"
+
+
+Set rstemp = objConnection.Execute(aspSQL)
+
+' verifica se há dados no recordset
+ If rstemp.eof then
+   response.write "Não há dados a exibir<br>"
+   response.write aspSQL & "<br>Não retorna informação alguma..."
+   connection.close
+   set connection=nothing
+   response.end
+ end if
+
+
+strHTML = "<table>"
+
+		
+		
+		
+DO UNTIL rstemp.eof
+'atribuindo os valores dos campos as variáveis
+  Codigo=rstemp("SID")
+  Nome=rstemp("Last_Name")
+  Nascimento=rstemp("First_Name")
+
+' escrevendo os campos em uma tabela para exibição via um Browser
+ 'cellstart="<td align=""top"">"
+strHTML = strHTML & "<tr>"
+strHTML = strHTML & "<td>" & Codigo & "</td>"
+strHTML = strHTML & "<td>" & Nome & "</td>"
+strHTML = strHTML & "<td>" & Nascimento & "</td>"
+strHTML = strHTML & "</tr>"
+'move-se para próximo registro do recordset
+  rstemp.movenext
+
+LOOP		
+		
+
+strHTML = strHTML & "</table>"
+DataArea.innerHTML = strHTML & "<br>" & DataArea.innerHTML
+
+rstemp.close
+set rstemp=nothing
+
+End Sub
+
+'********************************************************************************
+'********************************************************************************
+
+
+</script>
+
+
+</head>
+
+<!--HTML CODE-->
+<body background-color: #FFFFFF;"> 
+
+<p>
+<span id = "ControlsArea"></span>
+</p>
+
+<div id="navcontainer">
+
+<hr>
+<input type="button" name="button" id="b1" onClick="dbInfo" value="Inf Banco de dados">
+
+<input type="button" name="apagador" id="b2" onClick="ClearWindow" value="Apagar tabela">
+
+<hr>
+
+
+
+</div>
+
+<p>
+<span id = "DataArea"></span>
+</p>
+
+
+</body>
+</html>
