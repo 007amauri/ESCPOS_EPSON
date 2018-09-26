@@ -1,7 +1,9 @@
 # ESCPOS_EPSON
 Script que cria impressão direta (usando DOSPrintUI.exe ou EpsonPA.exe ) OBS PORTA LPT5 nos Scripts
 
-Arquivo . VBS (VISUAL BASE SCRIPT) são arquivos nativo do windows 
+Arquivo . VBS (VISUAL BASE SCRIPT) são arquivos nativo do windows
+
+Arquivo . HTA (VISUAL BASE SCRIPT) são arquivos nativo do windows
 
 Atenção baixe o DOSPrintUI.exe https://mega.nz/#!nPxXwQ4R!0_IL2eswLUNz56XuS630YkpZA7LbRgrAhNSjBan-vtQ
 
