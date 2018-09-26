@@ -1,0 +1,407 @@
+<!doctype html>
+<!--Begin Vbscript-->
+<script language="VBScript">
+Sub window_Onload
+window.resizeTo 600,750
+End sub
+
+
+'Data atual 
+Function Fun_Data()
+    dia = day(now)
+    mes = month(now)
+    ano = year(now)
+	
+	if len(mes) = 1 or mes < 10 or mes = 0 then mes = "0" + CStr(mes) end if 'trasnforma a variavel com o 01 a 09 se for menor que 10
+	
+    Fun_Data = CStr(dia) + "/" + CStr(mes) + "/" + CStr(ano)
+End Function
+
+'Hora atual
+Function Fun_Hora()
+    hora = hour(now)
+    minutos = minute(now)
+    segundos =second(now)
+	
+	'trasnforma a variavel com o 01 a 09 se for menor que 10
+    if len(hora) = 1 or hora < 10 or hora = 0 then hora = "0" + CStr(hora) end if
+    if len(minutos) = 1 or minutos < 10 then minutos = "0" + CStr(minutos) end if
+    if len(segundos) = 1 or segundos < 10 then segundos = "0" + CStr(segundos) end if
+    
+	Fun_Hora = CStr(hora) + ":" + CStr(minutos) + ":" + CStr(segundos)
+End Function
+
+'Impressao de tudo...' 
+Private Function Imprimir()
+
+Dim objFSO
+Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script'
+
+	Set objPrinter = objFSO.CreateTextFile("LPT5", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script'
+	objPrinter.WriteLine(document.getElementById("p1").value)'impressao do conteudo da lista'
+	objPrinter.Close
+
+Set objFSO = Nothing
+End Function
+
+'Impressao de senha' 
+Private Function corte()
+
+Dim objFSO
+Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script'
+
+	Set objPrinter = objFSO.CreateTextFile("LPT5", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script'
+	objPrinter.WriteLine(Chr(29)+"V1")'corte folha'
+	objPrinter.Close
+
+Set objFSO = Nothing
+End Function
+
+'ativar fonte  normal' 
+Private Function normal()
+
+Dim objFSO
+Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script'
+
+	Set objPrinter = objFSO.CreateTextFile("LPT5", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script'
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padrão'
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(0))' fonte esquerda defalt'
+	objPrinter.Close
+
+Set objFSO = Nothing
+End Function
+
+'ativar fonte  negrito' 
+Private Function negrito()
+
+Dim objFSO
+Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script'
+
+	Set objPrinter = objFSO.CreateTextFile("LPT5", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script'
+	objPrinter.WriteLine(Chr(27)+"GS")'negrito'
+	objPrinter.Close
+
+Set objFSO = Nothing
+End Function
+
+
+
+'Impressao de senha '
+Private Function Senha()
+
+nomest = document.getElementById("nomest").value
+checkBox = document.getElementById("on").value
+
+If checkBox = "off" Then
+
+Dim objFSO
+Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script'
+i = CInt (document.getElementById("campo").value) 
+
+	Set objPrinter = objFSO.CreateTextFile("LPT5", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script'
+	objPrinter.WriteLine(Chr(27)+"W"+"0")
+	objPrinter.WriteLine(Chr(27)+"@")
+	objPrinter.WriteLine(Chr(12))'ff'
+	objPrinter.WriteLine(Chr(12))'ff'
+	objPrinter.WriteLine(Chr(27)+"a"+Chr(1))'fonte Centralizar '
+	objPrinter.WriteLine(Chr(27)+"M1"+Chr(29)+"!7")'fonte Grande'
+	objPrinter.WriteLine("SENHA")
+
+	objPrinter.WriteBlankLines 1'pula linha'
+	objPrinter.WriteLine(cstr(i))'numero da senha atual'
+
+	objPrinter.WriteBlankLines 1'pula linha'
+
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padrão'
+	objPrinter.WriteLine(Chr(27)+"a"+Chr(2))'justifica a fonte a esquerda' 
+	objPrinter.WriteLine(Chr(27)+"!"+Chr(169)+Chr(27)+"4")
+	objPrinter.WriteLine(Chr(27)+"!"+Chr(169)+Chr(27)+"4"+Chr(10))'subrinhar fonte' 
+	objPrinter.WriteLine(Fun_Data & " " & Fun_Hora )'Data e Hora atual'
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padrão'
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(0))' fonte esquerda defalt'
+	objPrinter.WriteLine(nomest)
+	objPrinter.WriteLine(Chr(29)+"V1")'corte folha'
+	
+
+	objPrinter.Close
+
+
+	aler = msgbox ("Senha: "+ cstr(i) + " Gerada com Sucesso! " ,vbInformation," Gerando a senha" )
+    
+	document.getElementById("campo").value = i+1
+End If
+
+
+Set objFSO = Nothing
+End Function
+
+'Impressao de codigo de barras Bar 128 12 digitos'
+Private Function bar()
+Barcode=document.getElementById("campo2").value
+Dim objFSO
+Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script'
+
+
+
+	Set objPrinter = objFSO.CreateTextFile("LPT5", true)'joga um testo na porta Lpt1, lpt2 etc... defina no seu script'
+
+	objPrinter.WriteLine(Chr(27)+"a1")
+	objPrinter.WriteLine(Chr(27)+"@")
+	objPrinter.WriteLine(Chr(27)+"2")
+	objPrinter.WriteLine(Chr(27)+"t")
+	objPrinter.WriteLine(Chr(2))
+	objPrinter.WriteLine(Chr(27)+"a1")
+	objPrinter.WriteLine(Chr(27)+"w")' largura'
+	objPrinter.WriteLine(Chr(2))'STX'
+	objPrinter.WriteLine(Chr(29)+"h")'comprimento'
+	objPrinter.WriteLine(Chr(50))
+	objPrinter.WriteLine(Chr(29)+"H")
+	objPrinter.WriteLine(Chr(0))'FF'
+	objPrinter.WriteLine(Chr(29)+"kI")
+	objPrinter.WriteLine(Chr(14)+"{B"+Barcode)' OBS chr 14 pois 2({B) + 12(Barcode) caracteres é igual a 14 digitos '
+	objPrinter.WriteLine("CM MAC: "+ Barcode)
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padrão'
+	objPrinter.WriteLine(Chr(27)+"@"+Chr(0))' fonte esquerda defalt'
+	objPrinter.WriteBlankLines 1'pula linha'
+	result = MsgBox ("Deseja corta papel ?", vbYesNo, "Corte de papel")
+    Select Case result
+	Case vbYes
+    objPrinter.WriteLine(Chr(29)+"V1")'corte folha'
+	Case vbNo
+    objPrinter.WriteBlankLines 1'pula linha'
+	End Select
+	
+
+	objPrinter.Close
+
+	aler = msgbox ("CM MAC: "+ Barcode + " Gerada com Sucesso! ",vbInformation," Impressao de codigo de barras ")
+
+
+
+Set objFSO = Nothing
+End Function
+
+
+
+</script>
+
+<script type='text/javascript'>
+function limp(){ 
+document.getElementById('p1').value='';
+}
+function info(){ 
+var e = document.getElementById("tecnicoSelecionado");
+var itemSelecionado = e.options[e.selectedIndex].text;
+document.form1.nomest.value = itemSelecionado;
+var campo = document.form1.campo.value;
+var checkBox = document.getElementById("on");
+RE = document.form1.tecnicoSelecionado.value;
+  if (checkBox.checked == true){
+  limp();
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";
+document.form1.p1.value = document.form1.p1.value + "              COMPROVANTE DE SENHAS            \n\r";	
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";	
+  
+vo();
+		document.form1.on.value = "off";
+    } else {
+document.getElementById('p1').value='';
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n\r";
+document.form1.p1.value = document.form1.p1.value + "         COMPROVANTE DE CARGA DO TECNICO      \n\r";
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";
+document.form1.p1.value = document.form1.p1.value + document.form1.tecnicoSelecionado.value + "\n";
+document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n";
+document.form1.p1.value = document.form1.p1.value + "================================================";
+	}
+}
+function infoma(){ 
+var e = document.getElementById("tecnicoSelecionado");
+var itemSelecionado = e.options[e.selectedIndex].text;
+document.form1.p1.value = document.form1.p1.value + "\n\r\n\r\n\rAss:------------------------------------\n\r";
+document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n\r";
+document.form1.p1.value = document.form1.p1.value + "Tecnico\n\r";
+document.form1.p1.value = document.form1.p1.value + "\n\rDeclaro ter recebido nesta data, os itens";
+document.form1.p1.value = document.form1.p1.value + "acima descritos, sendo inteiramente responsavel,";
+document.form1.p1.value = document.form1.p1.value + "pela guarda e uso justificado em ordem de";
+document.form1.p1.value = document.form1.p1.value + "servico pela NET, devidamente cadastrada,";
+document.form1.p1.value = document.form1.p1.value + "respondendo por perdas e danos em caso de";
+document.form1.p1.value = document.form1.p1.value + "mau uso e/ou indevido";
+}
+function GenerateTxtFile(){
+    var fso  = new ActiveXObject("Scripting.FileSystemObject"); 
+	 
+    var file = fso.CreateTextFile(document.form1.file.value, true);
+    file.writeline(document.form1.p1.value);
+    file.Close();
+}
+
+
+function myFunction(){
+
+if(event.keyCode == 13){
+        noStringAtAll = document.form1.campo2.value;
+		document.form1.p1.value = document.form1.p1.value + "\n" + document.form1.mods.value + "\n" + ModeloNet + noStringAtAll + "\n\r------------------------------------------------";
+document.getElementById('campo2').value='';
+
+var checkBox = document.getElementById("act");
+if (checkBox.checked == true){
+	return true
+	} 
+}
+}
+
+function vo(){
+// Obtém a data/hora atual
+var data = new Date();
+var e = document.getElementById("tecnicoSelecionado");
+var itemSelecionado = e.options[e.selectedIndex].text;
+// Guarda cada pedaço em uma variável
+var dia     = data.getDate();           // 1-31
+var dia_sem = data.getDay();            // 0-6 (zero=domingo)
+var mes     = data.getMonth();          // 0-11 (zero=janeiro)
+var ano2    = data.getYear();           // 2 dígitos
+var ano4    = data.getFullYear();       // 4 dígitos
+var hora    = data.getHours();          // 0-23
+var min     = data.getMinutes();        // 0-59
+var seg     = data.getSeconds();        // 0-59
+var mseg    = data.getMilliseconds();   // 0-999
+var tz      = data.getTimezoneOffset(); // em minutos
+// Formata a data e a hora (note o mês + 1)
+var str_data = '\n\rD:' + dia + '/' + (mes+1) + '/' + ano4;
+var str_hora =  'Hora ' + hora + ':' + min;
+var campo = document.form1.campo.value;
+document.form1.p1.value = document.form1.p1.value + str_data + "\n" + str_hora+ "\n";
+document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n"; 
+
+}
+
+</script>
+
+
+
+<html>
+<!--
+ * Script que cria impressão.
+ * contato: amauri_long@yahoo.com.br
+ *
+ * @author Amauri Bueno dos santos
+ * @created 26/09/2011
+ * @version 3.0
+-->
+<head>
+<HTA:APPLICATION
+      ID="oHTA"
+      APPLICATIONNAME="impressao"
+      ID="oHTA"
+      BORDER="thin"
+      BORDERSTYLE="normal"
+      CAPTION="yes"
+      CONTEXTMENU="no"
+      ICON="https://raw.githubusercontent.com/007amauri/ESCPOS_EPSON/master/icone.ico"
+      INNERBORDER="no"
+      MAXIMIZEBUTTON="no"
+      MINIMIZEBUTTON="yes"
+      NAVIGABLE="yes"
+      SCROLL="no"
+      SCROLLFLAT="yes"
+      SELECTION="no"
+      SHOWINTASKBAR="no"
+      SINGLEINSTANCE="yes"
+      SYSMENU="yes"
+      VERSION="1.0"
+    />
+<meta charset="utf-8">
+<title>IMPRESS&Atilde;O DE CUPOM ESCPOS EPSON TM-T20 </title>
+<link data-n-head="true" rel="icon" type="image/png" sizes="16x16" href="https://maxst.icons8.com/vue-static/icon/icons8-favicon.png"/>
+<style type="text/css">
+body {
+	background-repeat: no-repeat;
+	background-color: #FFFFFF;
+}
+pre {
+    display: block;
+    font-family: monospace;
+    white-space: pre;
+    margin: 1em 0;
+} 
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head/>
+<body background="welcome_journal.png" >
+
+<iframe  id="hiddenContent" width="200" height="200" style="position:absolute;visibility:hidden;" ></iframe>
+
+
+
+<form id="form1" name="form1" method="post" action="email.html">
+  <label for="p1"></label>
+  <table width="504" border="0">
+    <tr>
+      <td width="144" rowspan="3" bgcolor="#009999"> ++++++</td>
+      <td width="317" height="117" colspan="3"> IMPRESS&Atilde;O DE CUPOM PROCISA<br>
+	  <input name="nomest" type="hidden" id="nomest" value="1">
+      <br>
+      <select id="tecnicoSelecionado" name="tecnicoSelecionado" class="form-control search-select" onchange="info" onKeypress="Senha" size="1">	
+	<option value="88071">HELEM DENIS RODRIGUES - BP</option>
+	<option value="88072">JOSE ALBINO MENDES SILVA - BP</option>
+	<option value="88074">RAFAEL RODRIGUES DA SILVA - BP</option>
+	<option value="88075">RONALDO TOMAZOLI FERREIRA - BP</option>
+	<option value="88076">ANTONIO CARLOS OLIVEIRA CARVALHO - BP</option>
+	<option value="88077">EXODO SOARES CAVALCANTE - BP</option>
+	<option value="88091">CESAR AUGUSTO DA SILVA PEREIRA - AT</option>
+	<option value="88135">EDUARDO APA. DE OLIVEIRA PINTO - AT</option>
+	<option value="88136">JORGE MARQUES DE GALES - AT</option>
+	<option value="88137">ANDERSON DA SILVA CABRAL - AT</option>
+	<option value="88138">WELLINGTON DO AMARAL - AT</option>
+	<option value="88164">JEFFERSON LIZARTE DE FREITAS</option>
+	<option value="88171">JOSE CARLOS BRONZO</option>
+	<option value="88173">DANILO PAVAO BOREAN</option>
+	<option value="88174">JOSE CRISTIANO DO SANTOS </option>
+	<option value="88175">ANDRE ROCHA MOREIRA</option>
+	<option value="88337">EDERSON PEREIRA CAVALHEIRO</option>
+</select>
+      <input type="button" name="button6" id="button6" onClick="Senha" value="Senha">
+      <span style="color: #FFF">
+      <br>
+      <input name="id" type="checkbox" class="campos_v" id="on" value="on" checked />
+      Fsdsddsdssds
+      </span>  Senha :
+      <input type="text" size ="1" width="1" maxlength="2" value="1" id="campo">
+      <br>
+      <input type="button" name="Imp" id="Imp" onClick="Imprimir" value="Imprimir">
+      <input type="button" name="butto" id="butto" onClick="negrito" value="negrito">
+	  <input type="button" name="button4" id="button4" onClick="normal" value="normal">
+	  <input type="button" name="button7" id="button7" onClick="limp" value="Limpar"></td>
+      <td width="29" rowspan="3" bgcolor="#009999">++</td>
+    </tr>
+    <tr>
+      <td><pre><textarea name="p1" cols="50" rows="20" class=".fundo" id="p1" onKeyDown=" "></textarea><pre/>
+	  <input type="button" name="but" id="but" onClick="corte" value="corte">
+	  <input type="button" name="button9" id="button9" onClick="infoma" value="Procisa inf">      
+        <hr><select id="mods" name="mods" class="form-control search-select" size="1">
+		
+        <option value="TEVO0001">EMTA 1.0</option>
+	<option value="DECODER HD">DECODER HD</option>
+	<option value="EMTA 3.0">EMTA 3.0</option>
+    <option value="CARD0008">SMARTCARD PRETO</option>
+    <option value="CARD0002">SMARTCARD LARANJA</option>
+
+</select><input type="button" name="button10" id="button10" onClick="GenerateTxtFile" value="Salvar"><input name="file" type="text" id="file" " value="Procisa.txt" size="15" maxlength="12" >
+      Digite 12 caracteres e precione enter.</td>
+      <td>&nbsp;</td>
+      <td rowspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2">MAC ID:
+        <input name="campo2" type="text" id="campo2" " value="123456789123" onkeypress="bar" size="18" maxlength="12" >
+        <span style="color: #FFF">
+        <input name="act" type="checkbox" class="campos_v" id="act" value="on" />
+        <strong>selecionar barcod 128</strong></span></td>
+    </tr>
+  </table>
+
+</form>
+
+</body>
+
+</html>
