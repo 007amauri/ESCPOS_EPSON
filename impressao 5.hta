@@ -2,9 +2,14 @@
 <!--Begin Vbscript-->
 <script language="VBScript">
 Sub window_Onload
-window.resizeTo 600,750
+window.resizeTo 600,900
+document.getElementById("dVersion").innerHTML="MAC ID: "
 End sub
 
+Function Tipo()
+    vV = document.getElementById("mods").value
+    document.getElementById("dVersion").innerHTML=vV
+End Function
 
 'Data atual 
 Function Fun_Data()
@@ -85,6 +90,30 @@ Set objFSO = Nothing
 End Function
 
 
+Private Function Ler()
+Set objFSO=CreateObject("Scripting.FileSystemObject")
+sPathFile = document.getElementById("file").value
+
+Set objFile = objFSo.OpenTextFile(sPathFile)
+	Do Until objFile.AtEndOfStream
+		sLine = sLine + vbCrLf +  objFile.ReadLine
+		
+	Loop
+	
+	document.getElementById("p1").value = sLine
+	
+objFile.Close
+
+End Function
+
+Private Function Apagar()
+
+Const DeleteReadOnly = TRUE
+a = document.getElementById("file").value
+Set objFSO = CreateObject("Scripting.FileSystemObject")
+objFSO.DeleteFile(a), DeleteReadOnly
+
+End Function
 
 'Impressao de senha '
 Private Function Senha()
@@ -137,6 +166,8 @@ End Function
 
 'Impressao de codigo de barras Bar 128 12 digitos'
 Private Function bar()
+vV = document.getElementById("mods").value
+document.getElementById("dVersion").innerHTML=vV
 Barcode=document.getElementById("campo2").value
 Dim objFSO
 Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipulado pelo seu script'
@@ -159,7 +190,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipul
 	objPrinter.WriteLine(Chr(0))'FF'
 	objPrinter.WriteLine(Chr(29)+"kI")
 	objPrinter.WriteLine(Chr(14)+"{B"+Barcode)' OBS chr 14 pois 2({B) + 12(Barcode) caracteres é igual a 14 digitos '
-	objPrinter.WriteLine("CM MAC: "+ Barcode)
+	objPrinter.WriteLine(vV + Barcode)
 	objPrinter.WriteLine(Chr(27)+"@"+Chr(1)+Chr(27)+"2"+Chr(27)+"t"+Chr(2))'reseta a impressora ao padrão'
 	objPrinter.WriteLine(Chr(27)+"@"+Chr(0))' fonte esquerda defalt'
 	objPrinter.WriteBlankLines 1'pula linha'
@@ -174,7 +205,7 @@ Set objFSO = CreateObject("Scripting.FileSystemObject")' cria um arquivo manipul
 
 	objPrinter.Close
 
-	aler = msgbox ("CM MAC: "+ Barcode + " Gerada com Sucesso! ",vbInformation," Impressao de codigo de barras ")
+	aler = msgbox (vV + Barcode + " Gerada com Sucesso! ",vbInformation," Impressao de codigo de barras ")
 
 
 
@@ -211,8 +242,48 @@ document.form1.p1.value = document.form1.p1.value + "         COMPROVANTE DE CAR
 document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";
 document.form1.p1.value = document.form1.p1.value + document.form1.tecnicoSelecionado.value + "\n";
 document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n";
-document.form1.p1.value = document.form1.p1.value + "================================================";
+document.form1.p1.value = document.form1.p1.value + "================================================\n\r";
+
+document.form1.p1.value = document.form1.p1.value + "		  EQUIPAMENTOS 					\n\r";
+
+document.form1.p1.value = document.form1.p1.value + "Item           Terminais                 Qtde\n\r";
 	}
+}
+function terminais(){
+
+mods = document.form1.mods.value;//padrao
+Qtdel  = document.form1.Qtde.value;
+
+document.form1.Item.value=mods;// CM MAC:
+Item = document.form1.Item.value;// CM MAC:
+
+
+
+switch (Item) {
+  case "HFC MAC:":
+    document.form1.Descricao.value="TEVO0001";
+    break;
+  case "CA ID : ":
+    document.form1.Descricao.value="TEHD0009";
+    break;
+  case "MAC ID: ":
+    document.form1.Descricao.value="TEVO0022";
+    break;
+  case " S/ N : ":
+    document.form1.Descricao.value="CARD0008";
+    break;
+  default:
+    document.form1.Descricao.value="";
+}
+var	Descricao = document.form1.Descricao.value;
+
+document.form1.p1.value = document.form1.p1.value + Descricao +  "       " +document.form1.campo2.value + "                " + Qtdel + "\n";
+
+document.form1.Qtde.value= parseInt(Qtdel) + 1;
+
+
+
+
 }
 function infoma(){ 
 var e = document.getElementById("tecnicoSelecionado");
@@ -220,12 +291,12 @@ var itemSelecionado = e.options[e.selectedIndex].text;
 document.form1.p1.value = document.form1.p1.value + "\n\r\n\r\n\rAss:------------------------------------\n\r";
 document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n\r";
 document.form1.p1.value = document.form1.p1.value + "Tecnico\n\r";
-document.form1.p1.value = document.form1.p1.value + "\n\rDeclaro ter recebido nesta data, os itens";
-document.form1.p1.value = document.form1.p1.value + "acima descritos, sendo inteiramente responsavel,";
-document.form1.p1.value = document.form1.p1.value + "pela guarda e uso justificado em ordem de";
-document.form1.p1.value = document.form1.p1.value + "servico pela NET, devidamente cadastrada,";
-document.form1.p1.value = document.form1.p1.value + "respondendo por perdas e danos em caso de";
-document.form1.p1.value = document.form1.p1.value + "mau uso e/ou indevido";
+document.form1.p1.value = document.form1.p1.value + "\n\rDeclaro ter recebido nesta data, os itens\n\r";
+document.form1.p1.value = document.form1.p1.value + "acima descritos, sendo inteiramente responsavel,\n\r";
+document.form1.p1.value = document.form1.p1.value + "pela guarda e uso justificado em ordem de\n\r";
+document.form1.p1.value = document.form1.p1.value + "servico pela NET, devidamente cadastrada,\n\r";
+document.form1.p1.value = document.form1.p1.value + "respondendo por perdas e danos em caso de\n\r";
+document.form1.p1.value = document.form1.p1.value + "mau uso e/ou indevido\n\r";
 }
 function GenerateTxtFile(){
     var fso  = new ActiveXObject("Scripting.FileSystemObject"); 
@@ -338,7 +409,7 @@ pre {
   <table width="504" border="0">
     <tr>
       <td width="144" rowspan="3" bgcolor="#009999"> ++++++</td>
-      <td width="317" height="117" colspan="3"> IMPRESS&Atilde;O DE CUPOM PROCISA<br>
+      <td width="317" height="117" colspan="3"> IMPRESS&Atilde;O DE CUPOM <br>
 	  <input name="nomest" type="hidden" id="nomest" value="1">
       <br>
       <select id="tecnicoSelecionado" name="tecnicoSelecionado" class="form-control search-select" onchange="info" onKeypress="Senha" size="1">	
@@ -375,28 +446,58 @@ pre {
       <td width="29" rowspan="3" bgcolor="#009999">++</td>
     </tr>
     <tr>
-      <td><pre><textarea name="p1" cols="50" rows="20" class=".fundo" id="p1" onKeyDown=" "></textarea><pre/>
-	  <input type="button" name="but" id="but" onClick="corte" value="corte">
-	  <input type="button" name="button9" id="button9" onClick="infoma" value="Procisa inf">      
-        <hr><select id="mods" name="mods" class="form-control search-select" size="1">
-		
-        <option value="TEVO0001">EMTA 1.0</option>
-	<option value="DECODER HD">DECODER HD</option>
-	<option value="EMTA 3.0">EMTA 3.0</option>
-    <option value="CARD0008">SMARTCARD PRETO</option>
-    <option value="CARD0002">SMARTCARD LARANJA</option>
-
-</select><input type="button" name="button10" id="button10" onClick="GenerateTxtFile" value="Salvar"><input name="file" type="text" id="file" " value="Procisa.txt" size="15" maxlength="12" >
-      Digite 12 caracteres e precione enter.</td>
+      <td><pre><textarea name="p1" cols="50" rows="20" class=".fundo" id="p1" onKeyDown=" "></textarea><pre/><input name="Item" type="hidden" id="Item" value="1"><input name="Descricao" type="hidden" id="Descricao" value="1"><input name="Qtde" type="hidden" id="Qtde" value="1">
+        <hr>
+        <table width="200" border="1">
+          <tr>
+            <td><input type="button" name="but" id="but" onClick="corte" value="corte"></td>
+            <td><input type="button" name="button9" id="button9" onClick="infoma" value="Finalizar inf"></td>
+            <td><input type="button" name="button" id="button" onClick="limp" value="Limpar"></td>
+            <td><input type="button" name="butto2" id="butto2" onClick="negrito" value="negrito"></td>
+            <td><input type="button" name="button2" id="button2" onClick="normal" value="normal"></td>
+          </tr>
+          <tr>
+            <td>Tipo: </td>
+            <td><select id="mods" name="mods" class="form-control search-select"  onChange="Tipo" size="1">
+              <option value="MAC ID: ">EMTA 3.0</option>
+              <option value="HFC MAC:">EMTA 1.0</option>
+              <option value="CA ID : ">DECODER</option>
+              <option value=" S/ N : ">S/N</option>
+            </select></td>
+            <td>Txt: </td>
+            <td><select id="file" name="file" class="form-control search-select"  onChange="Tipo" size="1">
+              <option value="CARGA TECNICO.txt">CARGA TECNICO</option>
+              <option value="DEVOLUCAO BASE.txt">DEVOLUCAO BASE</option>
+              <option value="Requisição Materiais - Kit.txt">Materiais - Kit</option>
+              <option value="Requisição Materiais - Avulso.txt">Materiais - Avulso</option>
+            </select></td>
+            <td><input type="button" name="button10" id="button10"  onClick="GenerateTxtFile" value="Salvar"></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td><input type="button" name="LER2" id="LER2" onClick="Ler" value="Ler"></td>
+            <td><input type="button" name="apga2" id="apga2" onClick="Apagar" value="Apagar"></td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+      <p>Digite 12 caracteres e precione enter.</p></td>
       <td>&nbsp;</td>
       <td rowspan="2">&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="2">MAC ID:
-        <input name="campo2" type="text" id="campo2" " value="123456789123" onkeypress="bar" size="18" maxlength="12" >
-        <span style="color: #FFF">
-        <input name="act" type="checkbox" class="campos_v" id="act" value="on" />
-        <strong>selecionar barcod 128</strong></span></td>
+      <td colspan="2"><span id="dVersion" class="opcao"></span>
+        <input name="campo2" type="text" id="campo2" " value="123456789123" size="18" maxlength="12" >
+        <input type="button" name="cagb" id="cagb" onClick="bar" value="bar">
+        <input type="button" name="cadd" id="cadd" onClick="terminais" value="add">
+        <span style="color: #FFF"><strong>selecionar barcod 128</strong></span></td>
     </tr>
   </table>
 
