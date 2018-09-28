@@ -1,0 +1,179 @@
+<!doctype html>
+<script language="VBScript">
+Sub window_Onload
+window.resizeTo 915,350
+buscatd
+End sub
+
+
+
+'banco de dados acesso '
+Set objConnection = CreateObject("ADODB.Connection")
+objConnection.Open "PROVIDER=SQLOLEDB;DATA SOURCE=DESKTOP-OB7AG70\SQLEXPRESS;UID=myname;PWD=123456;DATABASE=bancovip"
+
+
+ 
+
+Private Function Enviar()
+ 
+Nome = document.getElementById("Nome2").value
+Re = document.getElementById("re2").value 
+
+document.getElementById("textarea").value = " "
+aspSQL="INSERT INTO Matricula (Nome, Re) VALUES ('" + Nome +"','" + Re +"');"
+Set rstemp = objConnection.Execute(aspSQL)
+buscatd
+End Function
+
+Private Function atualizar()
+Nome = document.getElementById("Nome2").value
+Re = document.getElementById("re2").value 
+
+aspSQL="UPDATE Matricula set nome='" + Nome +"', Re='" + Re +"' where SID=" + cstr(Re)
+Set rstemp = objConnection.Execute(aspSQL)
+
+
+buscatd
+End Function
+
+Private Function buscatd()
+
+document.getElementById("textarea").value = ""
+aspSQL="SELECT * FROM Matricula"
+
+
+Set rstemp = objConnection.Execute(aspSQL)
+
+ 
+ DO UNTIL rstemp.eof
+'atribuindo os valores dos campos as variáveis'
+  Codigo=rstemp("SID")
+  Nome2=rstemp("Nome")
+  Re2=rstemp("Re")
+document.getElementById("textarea").value = document.getElementById("textarea").value + vbCrLf + "Re: "+ cstr(Codigo) + "  " + "Nome: "+ Nome2 + vbCrLf
+rstemp.movenext 
+LOOP
+
+document.getElementById("re2").value = cstr(Codigo) + 1
+
+End Function
+
+
+Private Function busca()
+
+document.getElementById("textarea").value = ""
+Nome = document.getElementById("Nome2").value
+Re = document.getElementById("re2").value
+aspSQL="SELECT * FROM Matricula where Nome LIKE '%"+ Nome +"%' ORDER BY Nome"
+
+
+Set rstemp = objConnection.Execute(aspSQL)
+
+ 
+ DO UNTIL rstemp.eof
+'atribuindo os valores dos campos as variáveis'
+  Codigo=rstemp("SID")
+  Nome2=rstemp("Nome")
+  Re2=rstemp("Re")
+document.getElementById("textarea").value = document.getElementById("textarea").value + vbCrLf + "Re: "+ cstr(Codigo) + "  " + "Nome: "+ Nome2 + vbCrLf
+rstemp.movenext 
+LOOP
+
+document.getElementById("re2").value = cstr(Codigo) + 1
+
+End Function
+
+
+Private Function apagar()
+
+aspSQL="DELETE Matricula"
+Set rstemp = objConnection.Execute(aspSQL)
+
+document.getElementById("textarea").value = ""
+
+End Function
+
+Private Function excluir()
+
+Re = document.getElementById("re2").value 
+
+aspSQL="DELETE FROM Matricula WHERE SID=" + cstr(Re)
+Set rstemp = objConnection.Execute(aspSQL)
+
+document.getElementById("textarea").value = ""
+
+buscatd
+End Function
+ 
+
+</script>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BANCO DE DADOS SQL</title>
+<style type="text/css">
+.direita {
+	text-align: left;
+}
+</style>
+
+<HTA:APPLICATION
+      ID="oHTA"
+      APPLICATIONNAME="BANCO"
+      ID="oHTA"
+      BORDER="thin"
+      BORDERSTYLE="normal"
+      CAPTION="yes"
+      CONTEXTMENU="no"
+      ICON="https://raw.githubusercontent.com/007amauri/ESCPOS_EPSON/master/icone.ico"
+      INNERBORDER="no"
+      MAXIMIZEBUTTON="no"
+      MINIMIZEBUTTON="yes"
+      NAVIGABLE="yes"
+      SCROLL="no"
+      SCROLLFLAT="yes"
+      SELECTION="no"
+      SHOWINTASKBAR="no"
+      SINGLEINSTANCE="yes"
+      SYSMENU="yes"
+      VERSION="1.0"
+    />
+</head>
+
+<body>
+<form name="form1" method="post" action="">
+  <label for="textarea"></label>
+  <table width="200" border="5">
+    <tr>
+    <td><table width="425" height="210" border="1">
+      <tr>
+        <td height="65" colspan="5"><strong>BANCO DE DADOS SQL</strong></td>
+      </tr>
+      <tr>
+        <td width="72" height="33" class="direita"><label for="Nome2">Nome:</label></td>
+        <td width="144"><input type="text" name="Nome" id="Nome2"></td>
+        <td colspan="3"><span class="direita">
+          <input type="button" name="cagb4" id="cagb4" onClick="busca" value="Busca">
+        </span></td>
+      </tr>
+      <tr>
+        <td height="30" class="direita">RE:</td>
+        <td><label for="re2"></label>
+          <input type="text" name="re" id="re2"></td>
+        <td colspan="3"><span class="direita">
+          <input type="button" name="cagb5" id="cagb5" onClick="excluir" value="Excluir">
+        </span></td>
+      </tr>
+      <tr>
+        <td colspan="5" class="direita">Controle:
+          <input type="button" name="cagb" id="cagb" onClick="Enviar" value="Salvar">
+          <input type="button" name="cagb2" id="cagb2" onClick="atualizar" value="Atualizar">
+          <input type="button" name="cagb3" id="cagb3" onClick="apagar" value="Apagar tudo"></td>
+        </tr>
+    </table></td>
+    <td><textarea name="textarea" cols="50" rows="10" id="textarea"></textarea></td>
+  </tr>
+</table>
+</form>
+</body>
+</html>
