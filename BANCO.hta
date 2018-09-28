@@ -53,8 +53,10 @@ Set rstemp = objConnection.Execute(aspSQL)
 document.getElementById("textarea").value = document.getElementById("textarea").value + vbCrLf + "Re: "+ cstr(Codigo) + "  " + "Nome: "+ Nome2 + vbCrLf
 rstemp.movenext 
 LOOP
-
-document.getElementById("re2").value = cstr(Codigo) + 1
+If Codigo = "" Then
+Codigo = 0
+End If
+document.getElementById("re2").value = cstr(Codigo) + 1 'se o banco de dados estiver em branco da erro'
 
 End Function
 
