@@ -7,9 +7,9 @@ End sub
 
 
 
-'banco de dados acesso '
+'banco de dados acesso remoto porta TCP Entrada e Saida Fireware e configurar Admin Sql maleta vermelha'
 Set objConnection = CreateObject("ADODB.Connection")
-objConnection.Open "PROVIDER=SQLOLEDB;DATA SOURCE=DESKTOP-OB7AG70\SQLEXPRESS;UID=myname;PWD=123456;DATABASE=bancovip"
+objConnection.Open "PROVIDER=SQLOLEDB;DATA SOURCE=192.168.1.100;PORT=1433;UID=myname;PWD=123456;DATABASE=bancovip"
 
 
  
@@ -33,7 +33,7 @@ aspSQL="UPDATE Matricula set nome='" + Nome +"', Re='" + Re +"' where SID=" + cs
 Set rstemp = objConnection.Execute(aspSQL)
 
 
-buscatd
+busca
 End Function
 
 Private Function buscatd()
@@ -79,7 +79,7 @@ document.getElementById("textarea").value = document.getElementById("textarea").
 rstemp.movenext 
 LOOP
 
-document.getElementById("re2").value = cstr(Codigo) + 1
+
 
 End Function
 
@@ -102,7 +102,7 @@ Set rstemp = objConnection.Execute(aspSQL)
 
 document.getElementById("textarea").value = ""
 
-buscatd
+busca
 End Function
  
 
