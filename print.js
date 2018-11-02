@@ -261,6 +261,170 @@ this.GRALN = ImprGRALN;
 this.objFSO = new ActiveXObject("Scripting.FileSystemObject"); 
 
 }
+// inicio do programa
+
+ function limp(){ 
+document.getElementById('p1').value='';
+}
+function info(){ 
+var e = document.getElementById("tecnicoSelecionado");
+var itemSelecionado = e.options[e.selectedIndex].text;
+var checkBox = document.getElementById("on");
+RE = document.form1.tecnicoSelecionado.value;
+  if (checkBox.checked == true){
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";	  
+        vo();
+    } else {
+document.getElementById('p1').value='';
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n\r";
+document.form1.p1.value = document.form1.p1.value + "         COMPROVANTE DE CARGA DO TECNICO      \n\r";
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";
+document.form1.p1.value = document.form1.p1.value + document.form1.tecnicoSelecionado.value + "\n";
+document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n";
+document.form1.p1.value = document.form1.p1.value + "================================================";
+	}
+}
+function infoma(){ 
+var e = document.getElementById("tecnicoSelecionado");
+var itemSelecionado = e.options[e.selectedIndex].text;
+document.form1.p1.value = document.form1.p1.value + "\n\r\n\r\n\rAss:------------------------------------\n\r";
+document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n\r";
+document.form1.p1.value = document.form1.p1.value + "Tecnico";
+}
+function GenerateTxtFile(){
+    var fso  = new ActiveXObject("Scripting.FileSystemObject"); 
+	 
+    var file = fso.CreateTextFile(document.form1.file.value, true);
+    file.writeline(document.form1.p1.value);
+    file.Close();
+}
+function p(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.Imprimir(1,1,document.form1.p1.value) ;
+Imp.Fechar();
+}
+function test(){ 
+noStringAtAll = document.form1.campo2.value;
+document.form1.p1.value = document.form1.p1.value + "\n" + document.form1.mods.value + "\n" + ModeloNet + noStringAtAll + "\n\r------------------------------------------------";
+document.getElementById('campo2').value='';
+var checkBox = document.getElementById("act");
+if (checkBox.checked == true){
+codbar();
+Cen();
+ 
+    } 
+}
+function codbar(){
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.Code();
+Imp.Fechar();
+}
+function QR(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.QR_Cods();
+Imp.Fechar();
+}
+function logonet(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.mundonets();
+Imp.Fechar();
+}
+function Cen(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.ImprimirCentering();
+Imp.Fechar();
+}
+function negrito(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.impressao_b();
+Imp.Fechar();
+}
+function normal(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.tamanhoG();
+Imp.ImprimirCentering();
+Imp.Fechar();
+}
+function vgraln(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.GRALN();
+Imp.Fechar();
+}
+function vgral(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.GRAL();
+Imp.Fechar();
+}
+function vo(){
+// Obtém a data/hora atual
+var data = new Date();
+var e = document.getElementById("tecnicoSelecionado");
+var itemSelecionado = e.options[e.selectedIndex].text;
+// Guarda cada pedaço em uma variável
+var dia     = data.getDate();           // 1-31
+var dia_sem = data.getDay();            // 0-6 (zero=domingo)
+var mes     = data.getMonth();          // 0-11 (zero=janeiro)
+var ano2    = data.getYear();           // 2 dígitos
+var ano4    = data.getFullYear();       // 4 dígitos
+var hora    = data.getHours();          // 0-23
+var min     = data.getMinutes();        // 0-59
+var seg     = data.getSeconds();        // 0-59
+var mseg    = data.getMilliseconds();   // 0-999
+var tz      = data.getTimezoneOffset(); // em minutos
+// Formata a data e a hora (note o mês + 1)
+var str_data = '\n\rD:' + dia + '/' + (mes+1) + '/' + ano4;
+var str_hora =  'Hora ' + hora + ':' + min;
+var campo = document.form1.campo.value;
+document.form1.p1.value = document.form1.p1.value + str_data + "\n" + str_hora+ "\n";
+document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n"; 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.tamanhoP();
+Imp.ffs();
+Imp.NCOMP();
+Imp.Imprimir(1,2,"SENHA\n \r") ;
+Imp.Imprimir(1,3,campo + "\n \r") ;
+//Imp.mundonets();
+Imp.ImprimirCentering();
+Imp.COMPN();
+Imp.Imprimir(1,1,str_data + "\n \r" + str_hora+ "\n \r") ;
+Imp.ImprimirCentering();
+Imp.Imprimir(1,1,itemSelecionado + "\n \r");
+Imp.ImprimirCentering();
+Imp.QR_REs();
+Imp.invertidaON();
+Imp.Imprimir(1,1,RE );
+Imp.invertidaOFF();
+Imp.cortapapel(); 
+Imp.Fechar();
+document.form1.campo.value = parseInt(campo)+ parseInt(1);
+}
+function corte(){ 
+Imp = new Impr(); 
+Imp.Porta = "LPT5" ; 
+Imp.Abrir();
+Imp.cortapapel();
+Imp.Fechar();
+}
 //-->
 
  
