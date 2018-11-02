@@ -1,3 +1,4 @@
+<!--
 /**
  * Script que cria comandos ESCPOS LPT5 impressão TM-T20 Seiko Epson Corporation .
  * contato: contato: amauri_long@yahoo.com.br
@@ -8,6 +9,7 @@
  * @created 11/04/2011
  * @version 3.0, 08/07/2018
  */
+window.resizeTo(600,900);
 noStringAtAll = "$-=+ABC123abc";
 ModeloNet = "CM MAC: ";
 RE = "85187";
@@ -258,6 +260,7 @@ this.GRALN = ImprGRALN;
 
 this.objFSO = new ActiveXObject("Scripting.FileSystemObject"); 
 
-}  
+}
+//-->
 
  
