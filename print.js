@@ -272,16 +272,22 @@ var itemSelecionado = e.options[e.selectedIndex].text;
 var checkBox = document.getElementById("on");
 RE = document.form1.tecnicoSelecionado.value;
   if (checkBox.checked == true){
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";
+document.form1.p1.value = document.form1.p1.value + "              COMPROVANTE DE SENHAS            \n\r";	
 document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";	  
         vo();
     } else {
 document.getElementById('p1').value='';
 document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n\r";
 document.form1.p1.value = document.form1.p1.value + "         COMPROVANTE DE CARGA DO TECNICO      \n\r";
-document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n";
+document.form1.p1.value = document.form1.p1.value + "-----------------------------------------------\n ";
+DataHora();
 document.form1.p1.value = document.form1.p1.value + document.form1.tecnicoSelecionado.value + "\n";
-document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n";
-document.form1.p1.value = document.form1.p1.value + "================================================";
+document.form1.p1.value = document.form1.p1.value + "================================================\n\r";
+
+document.form1.p1.value = document.form1.p1.value + "		  EQUIPAMENTOS 					\n\r";
+
+document.form1.p1.value = document.form1.p1.value + "Item           Terminais                 Qtde\n\r";
 	}
 }
 function infoma(){ 
@@ -289,7 +295,13 @@ var e = document.getElementById("tecnicoSelecionado");
 var itemSelecionado = e.options[e.selectedIndex].text;
 document.form1.p1.value = document.form1.p1.value + "\n\r\n\r\n\rAss:------------------------------------\n\r";
 document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n\r";
-document.form1.p1.value = document.form1.p1.value + "Tecnico";
+document.form1.p1.value = document.form1.p1.value + "Tecnico\n\r";
+document.form1.p1.value = document.form1.p1.value + "\n\rDeclaro ter recebido nesta data, os itens\n\r";
+document.form1.p1.value = document.form1.p1.value + "acima descritos, sendo inteiramente responsavel,\n\r";
+document.form1.p1.value = document.form1.p1.value + "pela guarda e uso justificado em ordem de\n\r";
+document.form1.p1.value = document.form1.p1.value + "servico pela NET, devidamente cadastrada,\n\r";
+document.form1.p1.value = document.form1.p1.value + "respondendo por perdas e danos em caso de\n\r";
+document.form1.p1.value = document.form1.p1.value + "mau uso e/ou indevido.\n\r";
 }
 function GenerateTxtFile(){
     var fso  = new ActiveXObject("Scripting.FileSystemObject"); 
@@ -373,6 +385,39 @@ Imp.Abrir();
 Imp.GRAL();
 Imp.Fechar();
 }
+function DataHora (){
+// Obtém a data/hora atual
+var data = new Date();
+var e = document.getElementById("tecnicoSelecionado");
+var itemSelecionado = e.options[e.selectedIndex].text;
+// Guarda cada pedaço em uma variável
+var dia     = data.getDate();           // 1-31
+var dia_sem = data.getDay();            // 0-6 (zero=domingo)
+var mes     = data.getMonth();          // 0-11 (zero=janeiro)
+var ano2    = data.getYear();           // 2 dígitos
+var ano4    = data.getFullYear();       // 4 dígitos
+var hora    = data.getHours();          // 0-23
+var min     = data.getMinutes();        // 0-59
+var seg     = data.getSeconds();        // 0-59
+var mseg    = data.getMilliseconds();   // 0-999
+var tz      = data.getTimezoneOffset(); // em minutos
+// Formata a data e a hora (note o mês + 1)
+
+dia = ("00" + dia).slice(-2); // "09"
+mes = ("00" + (mes+1)).slice(-2); // "09"
+ano4 = ("0000" + ano4).slice(-4); // "04"
+
+hora = ("00" + hora).slice(-2); // "09"
+min = ("00" + min).slice(-2); // "09"
+
+var str_data = '\n\rD:' + dia + '/' + mes + '/' + ano4;
+var str_hora =  'Hora ' + hora + ':' + min;
+
+var campo = document.form1.campo.value;
+document.form1.p1.value = document.form1.p1.value + str_data + "\n" + str_hora+ "\n";
+document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n"; 
+}	
+
 function vo(){
 // Obtém a data/hora atual
 var data = new Date();
@@ -393,7 +438,7 @@ var tz      = data.getTimezoneOffset(); // em minutos
 
 dia = ("00" + dia).slice(-2); // "09"
 mes = ("00" + (mes+1)).slice(-2); // "09"
-ano4 = ("0000" + ano4).slice(-4); // "0004"
+ano4 = ("0000" + ano4).slice(-4); // "04"
 
 hora = ("00" + hora).slice(-2); // "09"
 min = ("00" + min).slice(-2); // "09"
