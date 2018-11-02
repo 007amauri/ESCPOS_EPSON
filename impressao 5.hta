@@ -338,8 +338,17 @@ var seg     = data.getSeconds();        // 0-59
 var mseg    = data.getMilliseconds();   // 0-999
 var tz      = data.getTimezoneOffset(); // em minutos
 // Formata a data e a hora (note o mês + 1)
-var str_data = '\n\rD:' + dia + '/' + (mes+1) + '/' + ano4;
+
+dia = ("00" + dia).slice(-2); // "09"
+mes = ("00" + (mes+1)).slice(-2); // "09"
+ano4 = ("0000" + ano4).slice(-4); // "04"
+
+hora = ("00" + hora).slice(-2); // "09"
+min = ("00" + min).slice(-2); // "09"
+
+var str_data = '\n\rD:' + dia + '/' + mes + '/' + ano4;
 var str_hora =  'Hora ' + hora + ':' + min;
+
 var campo = document.form1.campo.value;
 document.form1.p1.value = document.form1.p1.value + str_data + "\n" + str_hora+ "\n";
 document.form1.p1.value = document.form1.p1.value + itemSelecionado + "\n"; 
