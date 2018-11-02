@@ -393,7 +393,7 @@ var tz      = data.getTimezoneOffset(); // em minutos
 
 dia = ("00" + dia).slice(-2); // "09"
 mes = ("00" + (mes+1)).slice(-2); // "09"
-ano4 = ("0000" + ano4).slice(-4); // "04"
+ano4 = ("0000" + ano4).slice(-4); // "0004"
 
 hora = ("00" + hora).slice(-2); // "09"
 min = ("00" + min).slice(-2); // "09"
